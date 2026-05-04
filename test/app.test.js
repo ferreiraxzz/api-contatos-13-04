@@ -1,6 +1,5 @@
 const request = require('supertest');
-const app = require('../app.js');
-
+const app = require('../app'); 
 
 describe('Testes de Rotas de Contatos', () => {
   it('Deve listar todos os contatos (GET /contatos)', async () => {
@@ -8,7 +7,6 @@ describe('Testes de Rotas de Contatos', () => {
     expect(response.statusCode).toEqual(200);
     expect(response.body).toBeInstanceOf(Array);
   });
-
 
   it('Deve criar um novo contato com campos válidos (POST /contatos)', async () => {
     const newContact = {
@@ -19,16 +17,13 @@ describe('Testes de Rotas de Contatos', () => {
       foto: 'john.jpg',
     };
 
-
     const response = await request(app)
       .post('/contatos')
       .send(newContact);
 
-
     expect(response.statusCode).toEqual(201);
     expect(response.body).toHaveProperty('_id');
   });
-
 
   it('Deve retornar erro ao criar um novo contato com campos inválidos (POST /contatos)', async () => {
     const invalidContact = {
@@ -37,16 +32,13 @@ describe('Testes de Rotas de Contatos', () => {
       foto: 'john.jpg',
     };
 
-
     const response = await request(app)
       .post('/contatos')
       .send(invalidContact);
 
-
     expect(response.statusCode).toEqual(400);
     expect(response.body).toHaveProperty('message');
   });
-
 
   it('Deve retornar erro ao acessar uma rota inexistente (GET /rota-inexistente)', async () => {
     const response = await request(app).get('/rota-inexistente');

@@ -8,7 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: API_NODE
 
     steps:
       - name: Checkout code
@@ -23,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Run tests
-        env: 
+        env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          PORT: ${{ vars.MONGODB_URI }}
-        run: npm test  
+          PORT: ${{ vars.PORT }} 
+        run: npm test

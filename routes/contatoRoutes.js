@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Contato = require('../models/contatos');
-
+const Contato = require('../modelos/contato');
 
 // Rota para obter todos os contatos
 router.get('/', async (req, res) => {
@@ -13,22 +12,20 @@ router.get('/', async (req, res) => {
   }
 });
 
-
 // Rota para obter um contato por ID
 router.get('/:id', getContato, (req, res) => {
   res.json(res.contato);
 });
 
-
 // Rota para criar um novo contato
 router.post('/', async (req, res) => {
- const contato = new Contato({
+  const contato = new Contato({
     nome: req.body.nome,
     email: req.body.email,
     telefone: req.body.telefone,
     endereco: req.body.endereco,
-    foto: req.body.foto,});
-
+    foto: req.body.foto,
+  });
 
   try {
     const newContato = await contato.save();
@@ -37,7 +34,6 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-
 
 // Rota para atualizar um contato por ID
 router.put('/:id', getContato, async (req, res) => {
@@ -57,7 +53,6 @@ router.put('/:id', getContato, async (req, res) => {
     res.contato.foto = req.body.foto;
   }
 
-
   try {
     const updatedContato = await res.contato.save();
     res.json(updatedContato);
@@ -65,7 +60,6 @@ router.put('/:id', getContato, async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-
 
 // Rota para excluir um contato por ID
 router.delete('/:id', getContato, async (req, res) => {
@@ -76,7 +70,6 @@ router.delete('/:id', getContato, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 async function getContato(req, res, next) {
   try {
@@ -90,6 +83,5 @@ async function getContato(req, res, next) {
     return res.status(500).json({ message: err.message });
   }
 }
-
 
 module.exports = router;

@@ -8,13 +8,11 @@ const app = express();
 app.use(express.json());
 
 
-const contatoRouter = require('./rotas/contatosRotas');
+const contatoRouter = require('./routes/contatoRoutes');
 app.use('/contatos', contatoRouter);
 
 
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 
 
@@ -28,4 +26,7 @@ db.once('open', () => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+
 });
+
+export default app;

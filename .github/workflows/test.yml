@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: API_NODE
 
     steps:
       - name: Checkout code

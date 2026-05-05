@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Contato = require('../modelos/contato');
+const Contato = require('../models/contato');
 
 // Rota para obter todos os contatos
 router.get('/', async (req, res) => {

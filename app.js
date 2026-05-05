@@ -12,14 +12,23 @@ const contatoRouter = require('./routes/contatoRoutes');
 app.use('/contatos', contatoRouter);
 app.use(middlewareError); // Adiciona o middleware de erro para rotas não encontradas
 
-mongoose.connect(process.env.MONGODB_URI);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB:'));
-db.once('open', () => {
-  console.log('Conectado ao MongoDB Atlas!');
-});
+mongoose.set('strictQuery', false); // Para suprimir o warning de depreciação
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('Conectado ao MongoDB!');
+  })
+  .catch((err) => {
+    console.error('Erro de conexão ao MongoDB:', err.message);
+    process.exit(1); // Encerra o app se não conseguir conectar
+  });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+
+// Só inicia o servidor se este arquivo for executado diretamente
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
+}
+
+module.exports = app;
